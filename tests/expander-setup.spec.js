@@ -1,7 +1,6 @@
 jest.mock('@degjs/dom-event');
 
 import expander from '../src/expander.js';
-import domEvent from '@degjs/dom-event';
 
 describe('expander inits', () => {
     global.console = {
