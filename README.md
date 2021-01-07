@@ -1,4 +1,5 @@
 # expander
+![Run Tests](https://github.com/DEGJS/expander/workflows/Run%20Tests/badge.svg)
 
 A re-usable plugin to manage functionality and accessibility of expanding elements
 
