@@ -1,4 +1,4 @@
-import { dispatchEvent } from './utils.js';
+import { dispatchEvent } from '../src/utils.js';
 
 describe('dispatchEvent', () => {
     const eventName = 'mockEvent';

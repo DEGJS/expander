@@ -28,9 +28,22 @@ const defaults = {
 */
 
 function expander(containerEl, options = {}) {
+    if (!containerEl) {
+        console.error('Error in expander. No container element provided.');
+        return {};
+    }
+
     const settings = { ...defaults, ...options };
 
     const context = init(containerEl, settings);
+
+    // if no toggle element found, throw error and don't return methods
+    if (Object.keys(context).length === 0) {
+        console.error(
+            'Error in expander. No toggle element found in container.'
+        );
+        return {};
+    }
 
     return {
         getElement: () => containerEl,
@@ -43,10 +56,6 @@ function expander(containerEl, options = {}) {
 }
 
 function init(containerEl, settings) {
-    if (!containerEl) {
-        console.error('Error in expander. No container element provided.');
-    }
-
     const toggleEl = containerEl.querySelector(settings.toggleSelector);
 
     if (toggleEl) {
@@ -119,7 +128,6 @@ function animateToggleExpand(shouldExpand, context, settings) {
     }
 
     domEvent(animationTargetEl, settings.animationEvent).then(() => {
-        containerEl.classList.remove(expandedCssClass);
         updateElements(shouldExpand, context, settings);
         const eventName = shouldExpand ? events.expand : events.collapse;
         fireEvent(eventName, containerEl);
