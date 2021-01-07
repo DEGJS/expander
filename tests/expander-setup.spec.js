@@ -50,6 +50,20 @@ describe('expander inits', () => {
         expect(ariaAttr).toEqual('mockEl');
     });
 
+    it('should not set aria-controls by default', () => {
+        document.body.innerHTML = `
+            <div data-container>
+                <button></button>
+            </div>
+        `;
+        const containerEl = document.querySelector('[data-container]');
+        const toggleEl = document.querySelector('button');
+        expander(containerEl);
+
+        const ariaAttr = toggleEl.getAttribute('aria-controls');
+        expect(ariaAttr).toEqual(null);
+    });
+
     it('should return expander methods', () => {
         document.body.innerHTML = `
             <div data-container>

@@ -41,7 +41,7 @@ describe('expander functionality', () => {
         });
 
         afterEach(() => {
-            jest.restoreAllMocks();
+            jest.clearAllMocks();
             expanderInst.destroy();
             expanderInst = null;
             containerEl = null;
@@ -106,7 +106,7 @@ describe('expander functionality', () => {
         });
 
         afterEach(() => {
-            jest.restoreAllMocks();
+            jest.clearAllMocks();
             expanderInst.destroy();
             expanderInst = null;
             containerEl = null;
@@ -169,7 +169,7 @@ describe('expander functionality', () => {
         });
 
         afterEach(() => {
-            jest.restoreAllMocks();
+            jest.clearAllMocks();
             expanderInst.destroy();
             expanderInst = null;
             containerEl = null;
@@ -218,7 +218,7 @@ describe('expander functionality', () => {
             });
 
             afterEach(() => {
-                jest.restoreAllMocks();
+                jest.clearAllMocks();
                 expanderInst.destroy();
                 expanderInst = null;
                 containerEl = null;
@@ -300,7 +300,7 @@ describe('expander functionality', () => {
             });
 
             afterEach(() => {
-                jest.restoreAllMocks();
+                jest.clearAllMocks();
                 expanderInst.destroy();
                 expanderInst = null;
                 containerEl = null;
@@ -473,6 +473,56 @@ describe('expander functionality', () => {
             const returnedOpts = expanderInst.getOptions();
 
             expect(returnedOpts).toEqual(expectedOpts);
+        });
+    });
+
+    describe('destroy', () => {
+        let containerEl;
+        let expanderInst;
+        let toggleEl;
+
+        beforeEach(() => {
+            document.body.innerHTML = `
+                <div data-container>
+                    <button></button>
+                </div>
+            `;
+            containerEl = document.querySelector('[data-container]');
+            toggleEl = containerEl.querySelector('button');
+            expanderInst = expander(containerEl, {
+                animationTargetEl: containerEl,
+                isExpanded: true,
+            });
+        });
+
+        afterEach(() => {
+            jest.clearAllMocks();
+            expanderInst = null;
+            containerEl = null;
+            toggleEl = null;
+        });
+
+        it('should remove expanded class', () => {
+            expanderInst.destroy();
+            expect(containerEl.classList.contains('is-expanded')).toBe(false);
+        });
+
+        it('should remove collapsed class', () => {
+            expanderInst.collapse();
+            expanderInst.destroy();
+            expect(containerEl.classList.contains('is-expanded')).toBe(false);
+        });
+
+        it('should remove aria-expanded', () => {
+            expanderInst.destroy();
+            const ariaAttr = toggleEl.getAttribute('aria-expanded');
+            expect(ariaAttr).toBe(null);
+        });
+
+        it('should remove click listener', () => {
+            expanderInst.destroy();
+            toggleEl.click();
+            expect(utils.dispatchEvent).not.toHaveBeenCalled();
         });
     });
 });

@@ -14,24 +14,24 @@ $ npm install @degjs/expander
 
 ## Usage
 
-The `expander` plugin will handle listening and responding to click events on trigger button.
+The `expander` plugin will handle listening and responding to click events on a trigger button. It also handles accessibility associated with this (see accessibility section below). Finally, there is built-in support for animation when expanding or collapsing.
 It will dispatch custom events that the application can listen and respond to.
 
 _Note: the expander plugin exports a variable called `events` to help standardize event names that the app can listen for._
 
 ```js
-import expander, {events} from "@degjs/expander";
+import expander, { events } from '@degjs/expander';
 
 let expanderInst;
 
 const init = () => {
-	expanderInst = expander(containerEl);
+    expanderInst = expander(containerEl);
 
-	containerEl.addEventListener(events.beforeExpand, onBeforeExpand);
+    containerEl.addEventListener(events.beforeExpand, onBeforeExpand);
 };
 
 const destroy = () => {
-	expanderInst.destroy();
+    expanderInst.destroy();
 };
 ```
 
@@ -96,6 +96,20 @@ Nothing
 ### destroy()
 
 This method removes any aria-attributes it created and cleans up any event listeners it created.
+
+## Accessibility Features
+
+### aria-controls
+
+The `aria-controls` attribute details a relationships between two elements in the DOM. In this module, the `aria-controls` attribute is added to the toggle element if an element id is provided in the expander options.
+
+It is recommended that the `controlsId` is passed as an option if the element shown/hidden by the toggle does not immediately follow the toggle in DOM order.
+
+### aria-expanded
+
+The `aria-expanded` attribute details whether a collapsible region is expanded or collapsed.
+
+The expander module will set the `aria-expanded` attribute to the appropriate value whenever content is expanded or collapsed.
 
 ## Browser Support
 
